@@ -5,7 +5,7 @@ require 'open-uri'
 require 'json'
 require 'date'
 
-url = 'https://panel.walutomat.pl/api/v1/best_offers.php?curr1=EUR&curr2=PLN'
+url = 'https://panel.walutomat.pl/api/v1/best_offers.php'
 web_url = 'https://panel.walutomat.pl/logowanie'.freeze
 file_path = "#{Dir.home}/.bitbar-walutomat-plugin-store.txt".freeze
 
@@ -16,6 +16,7 @@ json = open(url) do |f|
 end
 
 @result = JSON.parse(json)
+@result = @result['offers'].select {|r| r['pair'] == 'EURPLN'}.first
 
 def color
   if @result["buy"] >= @result["buy_old"]

@@ -17,9 +17,27 @@ end
 @pm25 = @result['PM25']
 @pm10 = @result['PM10']
 
+def status
+  case @result['IJPString']
+  when 'Bardzo zły'
+    'bz'
+  when 'Zły'
+    'z'
+  when 'Dostateczny'
+    'dst'
+  when 'Umiarkowany'
+    'um'
+  when 'Dobry'
+    'db'
+  when 'Bardzo dobry'
+    'bd'
+  else
+    @result['IJPString']
+  end
+end
 
 content = <<HEREDOC
-#{@result['IJPString']} #{@result['temperatura']}°C | color=#{@result['Color']}
+#{status()} #{@result['temperatura']}°C | color=#{@result['Color']}
 ---
 smog bb www | href=#{web_url}
 Pył PM10: #{@pm10 || 0 } µg/m3 Norma: 50
